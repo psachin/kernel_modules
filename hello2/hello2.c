@@ -1,12 +1,11 @@
-/* passing arrays to a module */
+/* passing parameter to a module */
 /* Usage:
-   sudo insmod hello3.ko
+   sudo insmod hello2.ko
 
    OR
 
-    sudo insmod hello3.ko param_var=45,61,90
+   sudo insmod hello2.ko param_var=54
  */
-
 #include<linux/init.h>		/* to initiate a module */
 #include<linux/module.h>	/* to recognise this module as a mmodule */
 #include<linux/moduleparam.h>	/* needed for passsing params to a module */
@@ -14,13 +13,13 @@
 /* additional module info. Can be displayed when calling 'modinfo hello3.ko' */
 MODULE_LICENSE("GPL");		/* license */
 MODULE_AUTHOR("Tas Devil");	/* who wrote it */
-MODULE_DESCRIPTION("Kernel module demo"); /* purpose of module */
+MODULE_DESCRIPTION("hello2: Kernel module demo"); /* purpose of module */
 
 /* deaclare a variable */
-int param_var[3] = {0,0,0};
+int param_var = 83434;
 
-/* register an array variable */
-/* SYNTAX: module_param_array(var_name, type, total_number_of_parameters, permissions) */
+/* register a variable */
+/* SYNTAX: module_param(var_name, type, permissions) */
 /* 
    // permissions
    S_IRUSR: R-read, USR-user
@@ -34,35 +33,33 @@ int param_var[3] = {0,0,0};
    S_IRUSR | S_IWUSR
    
  */
-module_param_array(param_var, int, NULL, S_IRUSR | S_IRUSR);
+module_param(param_var, int, S_IRUSR | S_IRUSR);
 
 /* some custom function */
 void display() {
   /* prints the value of parameters */
-  printk(KERN_ALERT "HELLO3: param1 = %d",param_var[0]);
-  printk(KERN_ALERT "HELLO3: param2 = %d",param_var[1]);
-  printk(KERN_ALERT "HELLO3: param3 = %d",param_var[2]);
+  printk(KERN_ALERT "HELLO2: param = %d",param_var);
 }
 
-static int hello3_init(void) {
+static int hello2_init(void) {
   /* entry point of the module */
   /* to register functionalities and to allocate resources */
-  printk(KERN_ALERT "HELLO3: module inserted\n");
+  printk(KERN_ALERT "HELLO2: cruel world\n");
   display();			/* calls display() */
   return 0;
 }
 
-static void hello3_exit(void) {
+static void hello2_exit(void) {
   /* exit point of the module */
   /* to unregister functionalities and to deallocate resources */
-  printk(KERN_ALERT "HELLO3: GoodBye kernel\n");
+  printk(KERN_ALERT "HELLO2: GoodBye kernel\n");
   
 }
 
-module_init(hello3_init);	/* whenever the module loads, just to
+module_init(hello2_init);	/* whenever the module loads, just to
 				   this line and start hello_init
 				   function first */
-module_exit(hello3_exit);	/* when the module is removed,
+module_exit(hello2_exit);	/* when the module is removed,
 				   initiate the function
 				   hello_exit. And deallocate any
 				   resources this module uses */

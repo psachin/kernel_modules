@@ -1,5 +1,5 @@
 # Makefile for hello.c
-obj-m=hello3.o
+obj-m := hello.o
 
 KDIR=/usr/src/linux-headers-$(shell uname -r)
 
@@ -8,3 +8,4 @@ all:
 
 clean:
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) clean # from lkmpg 
+	rm -rvf *~

@@ -39,9 +39,9 @@ module_param_array(param_var, int, NULL, S_IRUSR | S_IRUSR);
 /* some custom function */
 void display() {
   /* prints the value of parameters */
-  printk(KERN_ALERT "HELLO3: param1 = %d",param_var[0]);
-  printk(KERN_ALERT "HELLO3: param2 = %d",param_var[1]);
-  printk(KERN_ALERT "HELLO3: param3 = %d",param_var[2]);
+  printk(KERN_ALERT "HELLO3: param1 = %d\n",param_var[0]);
+  printk(KERN_ALERT "HELLO3: param2 = %d\n",param_var[1]);
+  printk(KERN_ALERT "HELLO3: param3 = %d\n",param_var[2]);
 }
 
 static int hello3_init(void) {

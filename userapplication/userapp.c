@@ -2,7 +2,7 @@
 /* 
    Usage:
    % make
-   % ./userapp
+   % sudo ./userapp
  */
 #include<stdio.h>
 #include<stdlib.h>
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   fd = open(DEVICE, O_RDWR);	/* open for read/write */
 
   if(fd == -1){
-    printf("file %s either doesnot exit, or locked by another process\n", DEVICE);
+    printf("file %s either does not exit, or locked by another process, or you are not root!\n", DEVICE);
     exit(-1);
   }
   printf("r - read from device,\nw- write from device\nEnter command: ");

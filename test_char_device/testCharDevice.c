@@ -114,10 +114,10 @@ static int driver_entry(void) {
      alloc_chrdev_region(dev_t*,unsigned int dev_num_minor, unsigned int count, char* name);
    */
 
-  ret = alloc_chrdev_region(&dev_num, 0, 3, DEVICE_NAME);
+  ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
   /* arg1: dev_name will hold both major number and minor number */
-  /* arg2: start from minor 0 and loop till 3(will allocates minor number
-     in the range 0-3) */
+  /* arg2: start from minor 0 and loop till 1(will allocates minor number
+     in the range 0-1) */
   /* arg3: DEVICE_NAME */
   if(ret<0) {
     /* if kernel returns a negative number, means failed to allocate
@@ -160,7 +160,8 @@ static int driver_entry(void) {
   ret = cdev_add(mcdev, dev_num, 1);
   if(ret<0) {
     /* check errors */
-    printk(KERN_ALERT "testCharDevice: unable to add cdev to kernel");
+    printk(KERN_INFO "testCharDevice: unable to add cdev to kernel");
+    unregister_chrdev_region(dev_num, 1);
     return ret;
   }
   

@@ -1,8 +1,9 @@
 /* fake char device */
 /* Usage:
    % make 
-   % insmod testCharDevice.ko
-   % sudo mknod /dev/testCharDevice c major_number minor_number
+   % sudo insmod testCharDevice.ko
+   # ./userapp
+   % sudo rmmod testCharDevice.ko
  */
 
 #include<linux/init.h>		/* to initiate a module */

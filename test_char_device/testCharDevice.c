@@ -16,6 +16,7 @@
 #include<linux/semaphore.h>	/* used acces to semaphore, process management
 				   syncronization behaviour */
 #include<asm/uaccess.h>		/* copy_to_user;copy_from_user */
+#include<linux/device.h>
 
 /* (1)create structure for fake char device */
 struct fake_device
@@ -39,7 +40,7 @@ int ret; 			/* will hold return value of the
 dev_t dev_num;			/* will hold the device number that
 				   the kernel gives; name appears in
 				   /proc/devices */
-
+static struct class *cl; // Global variable for the device class
 #define DEVICE_NAME "testCharDevice"
 
 /* (7) called on device_open
@@ -126,13 +127,11 @@ static int driver_entry(void) {
   major_number = MAJOR(dev_num); /* extract major number from dev_num
 				    and store it in our variable */
   minor_number = MINOR(dev_num); /* minor number */
+  printk(KERN_INFO "testCharDevice: module loaded, device is: /dev/%s", 
+	 DEVICE_NAME);
   printk(KERN_INFO "testCharDevice: major number is: %d, minor number is: %d",
 	 major_number,
 	 minor_number);
-  printk(KERN_INFO "testCharDevice: Please execute 'sudo mknod /dev/%s c %d %d'",
-	 DEVICE_NAME,
-	 major_number,
-	 minor_number);		/* dmesg */
 
   /* ----------(2)---------- */
   mcdev = cdev_alloc();		/* create our cdev structure;
@@ -140,6 +139,20 @@ static int driver_entry(void) {
 				   cdev_alloc() */
   mcdev->ops = &fops;		/* struct file operation */
   mcdev->owner = THIS_MODULE;	
+
+  /* populate sysfs entries under /sys/class/chardev/ */
+  if ((cl = class_create(THIS_MODULE, "chardev")) == NULL)
+    {
+      unregister_chrdev_region(dev_num, 1);
+      return -1;
+    }
+  /* create /dev/testCharDevice node */
+  if (device_create(cl, NULL, dev_num, NULL, DEVICE_NAME) == NULL)
+    {
+      class_destroy(cl);
+      unregister_chrdev_region(dev_num, 1);
+      return -1;
+    }
 
   /* now that we have created our cdev, we have to add it to kernel */
   /* int cdev_add(struct cdev*, dev, dev_t num, unsigned int count) */
@@ -152,7 +165,6 @@ static int driver_entry(void) {
   
   /* (4) Initialize our semaphore */
   sema_init(&virtual_device.sem,1); /* initial value of one */
-
   return 0;
 }
 
@@ -160,10 +172,11 @@ static void driver_exit(void) {
   /* (5) unregister everything in reverse order */
   // (a)
   cdev_del(mcdev);
-  
+  device_destroy(cl, dev_num);	/* delete node /dev/testCharDevice */
+  class_destroy(cl);		/* delete sysfs */
   // (b)
   unregister_chrdev_region(dev_num, 1);
-  printk(KERN_INFO "testCharDevice: unloaded module");
+  printk(KERN_INFO "testCharDevice: module unloaded");
     
 }
 

@@ -1,2 +1,2 @@
 * Basics linux kernel modules
-  Understanding working of kernel modules
+  Simple Linux kernel modules

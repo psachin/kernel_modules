@@ -26,3 +26,6 @@ module_exit(hello_exit);	/* when the module is removed,
 				   initiate the function
 				   hello_exit. And deallocate any
 				   resources this module uses */
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("Simple Hello Module");
+MODULE_AUTHOR("Tas Devil");

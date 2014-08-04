@@ -31,7 +31,9 @@ int param_var = 83434;
 
    // or combinations
    S_IRUSR | S_IWUSR
-   
+
+   S_IRUGO: Parameters which can be read by the world but cannnot be changed.
+
  */
 module_param(param_var, int, S_IRUSR | S_IRUSR);
 

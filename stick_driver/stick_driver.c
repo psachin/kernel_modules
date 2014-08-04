@@ -12,6 +12,14 @@
 #include<linux/module.h>
 #include<linux/usb.h>
 
+/* Local vars */
+USB_VENDOR_ID_SONY_16G = 0x054c
+USB_DEVICE_ID_SONY_16G = 0x0439
+
+USB_VENDOR_ID_SUPERTOP_CARD_READER = 0x14cd
+USB_DEVICE_ID_SUPERTOP_CARD_READER = 0x125a
+
+
 /* probe function */
 /* called if the device is inserted if no other driver is handling the device */
 static int pen_probe(struct usb_interface *interface, const struct usb_device_id *id){
@@ -28,8 +36,8 @@ static void pen_disconnect(struct usb_interface *interface){
 static struct usb_device_id pen_table[] = 
   {
     // 054c:0439
-    { USB_DEVICE(0x054c, 0x0439)}, /* obtained from lsusb | SONY 16G pen drive */
-    { USB_DEVICE(0x14cd, 0x125a)}, /* multi SDcard reader | SUPERTOP */
+    { USB_DEVICE(USB_VENDOR_ID_SONY_16G, USB_DEVICE_ID_SONY_16G)}, /* obtained from lsusb | SONY 16G pen drive */
+    { USB_DEVICE(USB_VENDOR_ID_SUPERTOP_CARD_READER, USB_DEVICE_ID_SUPERTOP_CARD_READER)}, /* multi SDcard reader | SUPERTOP */
     {}				   /* terminating entry */
   };
 MODULE_DEVICE_TABLE(usb, pen_table);

@@ -1,7 +1,5 @@
 # Makefile for charater devices
-obj-m += testCharDevice.o
-obj-m += null-driver.o
-obj-m += video-ram.o
+obj-m += testCharDevice.o null-driver.o video-ram.o
 
 KDIR=/usr/src/linux-headers-$(shell uname -r)
 

@@ -1,7 +1,7 @@
 # Makefile for charater devices
 obj-m += testCharDevice.o null-driver.o video-ram.o
 
-KDIR=/usr/src/linux-headers-$(shell uname -r)
+KDIR=/lib/modules/$(shell uname -r)/build
 
 all:
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules

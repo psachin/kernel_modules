@@ -3,7 +3,7 @@
 ifneq ($(KERNELRELEASE),)
 obj-m := module-param.o
 else
-KDIR=/usr/src/linux-headers-$(shell uname -r)
+KDIR=/lib/modules/$(shell uname -r)/build
 
 all: modules
 

@@ -1,2 +1,21 @@
-* Basics linux kernel modules
-  Simple Linux kernel modules
+* Linux kernel modules
+  Basic Linux kernel modules examples
+
+*** Example usage:
+
+	#+BEGIN_SRC sh
+      # Visit module directory
+      cd hello
+
+      # Compile module
+      make
+
+      # Display module information
+      modinfo hello.ko
+
+      # Insert module
+      sudo insmod hello.ko
+
+      # Remove module
+      sudo rmmod hello.ko
+	#+END_SRC

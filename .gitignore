@@ -1,0 +1,13 @@
+# gitignore file for https://github.com/psachin/kernel_modules
+
+*.ko
+*.order
+*.symvers
+*.o
+*.cmd
+
+*.mod.c
+*.o.d
+
+.tmp_versions/
+

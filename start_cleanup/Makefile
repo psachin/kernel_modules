@@ -2,7 +2,7 @@
 obj-m := final.o
 final-objs := startup.o cleanup.o
 
-KDIR=/usr/src/linux-headers-$(shell uname -r)
+KDIR=/lib/modules/$(shell uname -r)/build
 
 all:
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules

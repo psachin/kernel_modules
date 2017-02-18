@@ -1,11 +1,11 @@
 # Makefile for hello2.c
 obj-m := hello2.o
 
-KDIR=/usr/src/linux-headers-$(shell uname -r)
+KDIR=/lib/modules/$(shell uname -r)/build
 
 all:
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
 
 clean:
-	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) clean # from lkmpg 
+	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) clean # from lkmpg
 	rm -rvf *~
